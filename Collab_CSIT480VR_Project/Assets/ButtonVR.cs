@@ -52,10 +52,10 @@ public class ButtonToArchery : MonoBehaviour
     {
         if (!isPressed)
         {
-            onPress.Invoke();
+            //onPress.Invoke();
             sound.Play();
             isPressed = true;
-            SceneManager.LoadScene(2); // Load the scene with the given index
+            SceneManager.LoadScene(sceneIndex); // Load the scene with the given index
         }
     }
 

@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class ButtonVR4 : MonoBehaviour // MUST CHANGE NAME TO REFECT THE BUUTON NAME 
-
+public class ButtonVR4 : MonoBehaviour
 {
     public GameObject button;
-    public FadeScreen fadeScreen;
-
     public UnityEvent onPress;
     public UnityEvent onRelease;
     GameObject presser;
@@ -45,20 +43,41 @@ public class ButtonVR4 : MonoBehaviour // MUST CHANGE NAME TO REFECT THE BUUTON 
 
     IEnumerator PlaySoundAndLoadScene()
     {
-        sound.Play();
-        yield return new WaitForSeconds(sound.clip.length); // Wait for the duration of the sound clip
+        // Start the fade out effect
+        yield return StartCoroutine(FadeOut());
+
+        sound.Play(); // Play the sound after the fade out effect
+
+        // Load the scene after fading out
+        SceneManager.LoadScene(1);
+    }
+
+    IEnumerator FadeOut()
+    {
+        float duration = 1.0f; // Duration of the fade effect
+        Image fadePanel = FindObjectOfType<Image>(); // Find any UI Image in the scene
+        if (fadePanel != null)
+        {
+            fadePanel.gameObject.SetActive(true); // Show the fade panel
+            float elapsedTime = 0.0f;
+            Color originalColor = fadePanel.color;
+            while (elapsedTime < duration)
+            {
+                float alpha = Mathf.Lerp(0.0f, 1.0f, elapsedTime / duration);
+                fadePanel.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            fadePanel.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1.0f); // Ensure the panel is fully faded out
+        }
     }
 
     public void GoToScene(int sceneIndex)
     {
         if (!isPressed)
         {
-            onPress.Invoke();
-            sound.Play();
             isPressed = true;
-            SceneManager.LoadScene(4); // Load the scene with the given index
+            StartCoroutine(PlaySoundAndLoadScene());
         }
     }
-
-
 }

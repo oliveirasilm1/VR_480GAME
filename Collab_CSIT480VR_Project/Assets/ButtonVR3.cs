@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class ButtonVR3 : MonoBehaviour
+public class ButtonVR3 : MonoBehaviour // MUST CHANGE NAME TO REFECT THE BUTTON NAME 
+
 {
     public GameObject button;
     public FadeScreen fadeScreen;
@@ -52,10 +53,10 @@ public class ButtonVR3 : MonoBehaviour
     {
         if (!isPressed)
         {
-            onPress.Invoke();
+            
             sound.Play();
             isPressed = true;
-            SceneManager.LoadScene(3); // Load the scene with the given index
+            SceneManager.LoadScene(sceneIndex); // Load the scene with the given index
         }
     }
 
