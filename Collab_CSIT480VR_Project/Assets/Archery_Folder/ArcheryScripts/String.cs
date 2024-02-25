@@ -29,14 +29,10 @@ public class String : MonoBehaviour
 
         lineRend.positionCount = linePts.Length;
         lineRend.SetPositions(linePts);
+        
     }
     
     void Start()
-    {
-        CreateString(null);
-    }
-
-    private void Update()
     {
         CreateString(null);
     }
